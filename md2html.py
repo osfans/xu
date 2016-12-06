@@ -4,6 +4,7 @@ import re
 
 sm = ""
 sd = ""
+zi_count = 0
 lines = list()
 
 def append(fmt, s):
@@ -20,7 +21,7 @@ for line in open("wiki/12.md", encoding="U8"):
             if line == sd:
                 continue
             sd = line
-            append("<div class=sd>%s</div>", sd[0]+"<br/>" + sd[1] if len(sd) == 2 else sd)
+            zi_count = 0
         elif line.startswith("#"):
             line = line[1:].strip()
             if line == sm:
@@ -53,7 +54,20 @@ for line in open("wiki/12.md", encoding="U8"):
                            yi += "　"
                         if n > 0:
                             yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
-                    append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
+                    zi_count+=1
+                    if zi_count == 1:
+                        sd_title = sd
+                        if yi.startswith("入聲"):
+                            sd_title = yi
+                            yi = ""
+                        if len(sd_title) == 2:
+                            sd_title = sd[0]+"<br/>" + sd[1]
+                            append("<div class=sd2>%s</div>", sd_title)
+                        else:
+                            append("<div class=sd>%s</div>", sd_title)
+                        append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
+                    else:
+                        append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
 
 template = """
 <!doctype html>
@@ -80,38 +94,41 @@ body {
   align: right;
 }
 
-.sd, .zy, .zi, .yi {
+.sd, .sd2, .zy, .zi, .zi1, .yi {
   cursor: text;
   position: static;
   float: left;
   text-align: center;
-}
-
-.sd {
-  font-size: 10px;
-  line-height: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  line-height: 10px;
+  padding-bottom: 5px;
+}
+
+.sd, .sd2 {
+  padding-right: 15px;
+  padding-bottom: 0px;
+  font-size: 10px;
   clear: both;
 }
 
-.zy {
-  line-height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+.sd2 {
+  padding-right: 10px;
 }
 
-.zi {
-  margin-top: 20px;
+.zi, .zi1 {
+  padding-top: 20px;
+  padding-bottom: 10px;
   font-size: 20px;
   line-height: 20px;
 }
 
+.zi1 {
+  padding-top: 10px;
+}
+
 .yi {
-  margin-top: 8px;
-  margin-bottom: 8px;
   font-size: 10px;
-  line-height: 12px;
 }
 
 .clear {
