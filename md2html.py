@@ -49,6 +49,8 @@ for line in open("wiki/12.md", encoding="U8"):
                         if 0 < n < 4:
                             yi = yi + (4-n) * "　"
                             n = 4
+                        if n % 2 == 1:
+                           yi += "　"
                         if n > 0:
                             yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
                     append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
