@@ -5,11 +5,27 @@ import re
 sm = ""
 sd = ""
 zi_count = 0
+zi_single = ""
 lines = list()
 
 def append(fmt, s):
     #print(s)
     lines.append(fmt % s)
+
+def parse(s):
+    s = s.strip().strip("`").replace("～", "—").replace(" ", "")
+    if "(" in s:
+        s = re.sub("(.[\?=])\((.+?)\)", r'<a title="\2">\1</a>', s)
+    return s
+
+def break_yi(yi):
+    n = len(yi)
+    if 0 < n < 4:
+        yi = yi + (4-n) * "　"
+        n = 4
+    if n > 0:
+        yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
+    return yi
 
 for line in open("wiki/12.md", encoding="U8"):
     line = line.strip()
@@ -29,35 +45,31 @@ for line in open("wiki/12.md", encoding="U8"):
             sm = line
             append("<div class=sm>%s</div>", sm)
         else:
-            line = line.replace("～", "—").replace("` ","`\n")
+            line = line.replace("` ","`\n")
             fields = line.split("\n")
             for line in fields:
                 zi, yi= "", ""
                 if " " not in line:
                     if line.startswith("`"):
-                        yi = line.strip("`")
+                        yi = line
                     else:
                         zi = line
                 elif line.count("`") == 2:
                     zi, yi = line.split("`", 1)
-                    zi = zi.strip()
-                    yi = yi.strip("`").replace(" ", "")
                 if zi or yi:
-                    #zi = zi.replace("?", "").replace("=", "")
-                    #yi = yi.replace("?", "").replace("=", "")
+                    zi = parse(zi)
+                    yi = parse(yi)
+                    if not yi:
+                        zi_single += zi
+                        continue
                     if zi:
-                        n = len(yi)
-                        if 0 < n < 4:
-                            yi = yi + (4-n) * "　"
-                            n = 4
-                        if n % 2 == 1:
-                           yi += "　"
-                        if n > 0:
-                            yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
+                        zi = zi_single + zi
+                        zi_single = ""
+                        yi = break_yi(yi)
                     zi_count+=1
                     if zi_count == 1:
                         sd_title = sd
-                        if yi.startswith("入聲"):
+                        if not zi:
                             sd_title = yi
                             yi = ""
                         if len(sd_title) == 2:
@@ -85,35 +97,32 @@ body {
   margin: 20px 0 10px;
   padding: 0;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 30px;
   border-left: 1px solid #cccccc;
   margin: 0 5px;
   cursor: text;
   position: static;
   clear: both;
-  align: right;
+  text-align: right;
 }
 
 .sd, .sd2, .zy, .zi, .zi1, .yi {
-  cursor: text;
-  position: static;
-  float: left;
+  font-size: 10px;
   text-align: center;
+  cursor: text;
+  float: left;
   margin-left: 10px;
   margin-right: 10px;
   line-height: 10px;
-  padding-bottom: 5px;
 }
 
 .sd, .sd2 {
-  padding-right: 15px;
-  padding-bottom: 0px;
-  font-size: 10px;
+  margin-right: 25px;
   clear: both;
 }
 
 .sd2 {
-  padding-right: 10px;
+  margin-right: 20px;
 }
 
 .zi, .zi1 {
@@ -128,7 +137,11 @@ body {
 }
 
 .yi {
-  font-size: 10px;
+  min-height: 40px;
+  letter-spacing: 0.35em;
+  text-align: left;
+  line-height: 12px;
+  margin-right: 8px;
 }
 
 .clear {
