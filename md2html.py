@@ -35,6 +35,7 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   line-height: 10px;
+  letter-spacing: 0.35em;
 }
 
 .sd, .sd2 {
@@ -59,7 +60,6 @@ body {
 
 .yi {
   min-height: 40px;
-  letter-spacing: 0.35em;
   text-align: left;
   line-height: 12px;
   margin-right: 8px;
@@ -86,9 +86,9 @@ def append(fmt, s):
     lines.append(fmt % s)
 
 def parse(s):
-    s = s.strip().strip("`").replace("～", "—").replace(" ", "")
-    if "(" in s:
-        s = re.sub("(.[\?=])\((.+?)\)", r'<a title="\2">\1</a>', s)
+    s = s.strip().strip("`").replace("〜", "—").replace("～", "—").replace("※", "").replace(" ", "")
+    if "(" in s or "（" in s:
+        s = re.sub("(.[\?=]?)[\(（](.+?)[\)）]", r'<a title="\2">\1</a>', s)
     return s
 
 def break_yi(yi):
@@ -109,7 +109,7 @@ def md2html(filename):
     for line in open(filename, encoding="U8"):
         line = line.strip()
         if line:
-            if line.startswith(">"):
+            if line.startswith(">") or line.startswith("---") :
                 continue
             if line.startswith("##"):
                 line = line[2:].strip()
