@@ -1,85 +1,6 @@
 #!/usr/bin/env python3
 
-import re
-
-sm = ""
-sd = ""
-zi_count = 0
-zi_single = ""
-lines = list()
-
-def append(fmt, s):
-    #print(s)
-    lines.append(fmt % s)
-
-def parse(s):
-    s = s.strip().strip("`").replace("～", "—").replace(" ", "")
-    if "(" in s:
-        s = re.sub("(.[\?=])\((.+?)\)", r'<a title="\2">\1</a>', s)
-    return s
-
-def break_yi(yi):
-    n = len(yi)
-    if 0 < n < 4:
-        yi = yi + (4-n) * "　"
-        n = 4
-    if n > 0:
-        yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
-    return yi
-
-for line in open("wiki/12.md", encoding="U8"):
-    line = line.strip()
-    if line:
-        if line.startswith(">"):
-            continue
-        if line.startswith("##"):
-            line = line[2:].strip()
-            if line == sd:
-                continue
-            sd = line
-            zi_count = 0
-        elif line.startswith("#"):
-            line = line[1:].strip()
-            if line == sm:
-                continue
-            sm = line
-            append("<div class=sm>%s</div>", sm)
-        else:
-            line = line.replace("` ","`\n")
-            fields = line.split("\n")
-            for line in fields:
-                zi, yi= "", ""
-                if " " not in line:
-                    if line.startswith("`"):
-                        yi = line
-                    else:
-                        zi = line
-                elif line.count("`") == 2:
-                    zi, yi = line.split("`", 1)
-                if zi or yi:
-                    zi = parse(zi)
-                    yi = parse(yi)
-                    if not yi:
-                        zi_single += zi
-                        continue
-                    if zi:
-                        zi = zi_single + zi
-                        zi_single = ""
-                        yi = break_yi(yi)
-                    zi_count+=1
-                    if zi_count == 1:
-                        sd_title = sd
-                        if not zi:
-                            sd_title = yi
-                            yi = ""
-                        if len(sd_title) == 2:
-                            sd_title = sd[0]+"<br/>" + sd[1]
-                            append("<div class=sd2>%s</div>", sd_title)
-                        else:
-                            append("<div class=sd>%s</div>", sd_title)
-                        append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
-                    else:
-                        append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
+import re, os, glob
 
 template = """
 <!doctype html>
@@ -158,6 +79,90 @@ body {
 </html>
 """
 
-target = open("index.html", "w", encoding="U8")
-target.write(template % ("\n".join(lines)))
-target.close()
+lines = list()
+
+def append(fmt, s):
+    #print(s)
+    lines.append(fmt % s)
+
+def parse(s):
+    s = s.strip().strip("`").replace("～", "—").replace(" ", "")
+    if "(" in s:
+        s = re.sub("(.[\?=])\((.+?)\)", r'<a title="\2">\1</a>', s)
+    return s
+
+def break_yi(yi):
+    n = len(yi)
+    if 0 < n < 4:
+        yi = yi + (4-n) * "　"
+        n = 4
+    if n > 0:
+        yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
+    return yi
+
+def md2html(filename):
+    sm = ""
+    sd = ""
+    zi_count = 0
+    zi_single = ""
+    lines.clear()
+    for line in open(filename, encoding="U8"):
+        line = line.strip()
+        if line:
+            if line.startswith(">"):
+                continue
+            if line.startswith("##"):
+                line = line[2:].strip()
+                if line == sd:
+                    continue
+                sd = line
+                zi_count = 0
+            elif line.startswith("#"):
+                line = line[1:].strip()
+                if line == sm:
+                    continue
+                sm = line
+                append("<div class=sm>%s</div>", sm)
+            else:
+                line = line.replace("` ","`\n")
+                fields = line.split("\n")
+                for line in fields:
+                    zi, yi= "", ""
+                    if " " not in line:
+                        if line.startswith("`"):
+                            yi = line
+                        else:
+                            zi = line
+                    elif line.count("`") == 2:
+                        zi, yi = line.split("`", 1)
+                    if zi or yi:
+                        zi = parse(zi)
+                        yi = parse(yi)
+                        if not yi:
+                            zi_single += zi
+                            continue
+                        if zi:
+                            zi = zi_single + zi
+                            zi_single = ""
+                            yi = break_yi(yi)
+                        zi_count+=1
+                        if zi_count == 1:
+                            sd_title = sd
+                            if not zi:
+                                sd_title = yi
+                                yi = ""
+                            if len(sd_title) == 2:
+                                sd_title = sd[0]+"<br/>" + sd[1]
+                                append("<div class=sd2>%s</div>", sd_title)
+                            else:
+                                append("<div class=sd>%s</div>", sd_title)
+                            append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
+                        else:
+                            append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
+
+    target = open(os.path.basename(filename).replace(".md", ".html"), "w", encoding="U8")
+    target.write(template % ("\n".join(lines)))
+    target.close()
+
+for filename in glob.glob("wiki/??.md"):
+   md2html(filename)
