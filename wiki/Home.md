@@ -24,7 +24,7 @@
 | [十二 蕭毛](/osfans/xu/wiki/12) | /ɔ/   |  i?o| i?o   | i?ao   |
 | [十三 佳麻](/osfans/xu/wiki/13) | /a/   |  [iu]?a| [iu]?a   |  [iu]?a  |
 | [十四 侵行](/osfans/xu/wiki/14) | /ə/   |  [iy]e[nh] |  iu?(ng\|k)  | [iü]e?[nh]   |
-| 十五 攸樓 | /ɤɯ/   |  i?eu|  i?ou  |  i?o?u  |
+| [十五 攸樓](/osfans/xu/wiki/15) | /ɤɯ/   |  i?eu|  i?ou  |  i?o?u  |
 
 
 # 調
