@@ -160,7 +160,7 @@ def md2html(filename):
                         else:
                             append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
 
-    target = open(os.path.basename(filename).replace(".md", ".html"), "w", encoding="U8")
+    target = open("html/" + os.path.basename(filename).replace(".md", ".html"), "w", encoding="U8")
     target.write(template % ("\n".join(lines)))
     target.close()
 
