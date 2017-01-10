@@ -12,8 +12,8 @@
 | ---------|:---: |-------------| -----| ----- |
 | 一 　東宏 | /ɔ/  |  i?o[nh] |  i?o(ng\|k)  | i?o(ng\|h)   |
 | 二 　江陽 | /a/   |  [iu]?a[nh] | [iu]?a(ng\|k)   |  [iu]?a(ng\|h)  |
-| 三 　真文 | /ə/   |  u?e[nh]|    u?e?(ng\|k)   |  u?e?[nh]|
-| 四 　刪咸 | /ɛ/   |  [iu]?ae[nh] | [iu]?e[nt]   |  [iu]?(an\|aih)  |
+| [三 　真文](/osfans/xu/wiki/03) | /ə/   |  u?e[nh]|    u?e?(ng\|k)   |  u?e?[nh]|
+| [四 　刪咸](/osfans/xu/wiki/04) | /ɛ/   |  [iu]?ae[nh] | [iu]?e[nt]   |  [iu]?(an\|aih)  |
 | [五 　端桓](/osfans/xu/wiki/05) | /ʊ/   |  u[nh]  |  u[nt]  | uon\|uh   |
 | 六 　先廉 | /ɪ/   |  [iy][nh] | iu?[nt]   |  [iü]e?i[nh]  |
 | 七 　支虞 | /ɿ/i/y/   |  [ziy]  |  (y\|iu)  |  [iü]  |
