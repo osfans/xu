@@ -18,7 +18,7 @@
 | 六 　先廉 | /ɪ/   |  [iy][nh] | iu?[nt]   |  [iü]e?i[nh]  |
 | 七 　支虞 | /ɿ/i/y/   |  [ziy]  |  (y\|iu)  |  [iü]  |
 | [八 　灰微](/osfans/xu/wiki/08) | /ɪ/   |  u?ei\|ih |  u?it?  |  u?ei\|ih  |
-| 九 　歌摩 | /ʊ/   |  uh? |  ut?  | o\|uh   |
+| [九 　歌摩](/osfans/xu/wiki/09) | /ʊ/   |  uh? |  ut?  | o\|uh   |
 | [十 　蘇胡](/osfans/xu/wiki/10) | /ʋ/   |  v  |  v  |  u  |
 | [十一 皆來](/osfans/xu/wiki/11) | /ɛ/   |  [iu]?ae|  [iu]?e  |  [iu]?ai  |
 | [十二 蕭毛](/osfans/xu/wiki/12) | /ɔ/   |  i?o| i?o   | i?ao   |
