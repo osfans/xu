@@ -16,7 +16,7 @@
 | [四 　刪咸](/osfans/xu/wiki/04) | /ɛ/   |  [iu]?ae[nh] | [iu]?e[nt]   |  [iu]?(an\|aih)  |
 | [五 　端桓](/osfans/xu/wiki/05) | /ʊ/   |  u[nh]  |  u[nt]  | uon\|uh   |
 | [六 　先廉](/osfans/xu/wiki/06) | /ɪ/   |  [iy][nh] | iu?[nt]   |  [iü]e?i[nh]  |
-| 七 　支虞 | /ɿ/i/y/   |  [ziy]  |  (y\|iu)  |  [iü]  |
+| [七 　支虞](/osfans/xu/wiki/07) | /ɿ/i/y/   |  [ziy]  |  (y\|iu)  |  [iü]  |
 | [八 　灰微](/osfans/xu/wiki/08) | /ɪ/   |  u?ei\|ih |  u?it?  |  u?ei\|ih  |
 | [九 　歌摩](/osfans/xu/wiki/09) | /ʊ/   |  uh? |  ut?  | o\|uh   |
 | [十 　蘇胡](/osfans/xu/wiki/10) | /ʋ/   |  v  |  v  |  u  |
