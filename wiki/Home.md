@@ -8,8 +8,8 @@
 ## 韻
 | 韻部       |  國際音標   | 泰如拼音   |  鹽城拼音   | 漢語拼音 |
 | ---------|:---: |-------------| -----| ----- |
-| [一 　東宏 | /ɔ/](/osfans/xu/wiki/01)  |  i?o[nh] |  i?o(ng\|k)  | i?o(ng\|h)   |
-| 二 　江陽 | /a/   |  [iu]?a[nh] | [iu]?a(ng\|k)   |  [iu]?a(ng\|h)  |
+| [一 　東宏](/osfans/xu/wiki/01) | /ɔ/  |  i?o[nh] |  i?o(ng\|k)  | i?o(ng\|h)   |
+| [二 　江陽](/osfans/xu/wiki/02) | /a/   |  [iu]?a[nh] | [iu]?a(ng\|k)   |  [iu]?a(ng\|h)  |
 | [三 　真文](/osfans/xu/wiki/03) | /ə/   |  u?e[nh]|    u?e?(ng\|k)   |  u?e?[nh]|
 | [四 　刪咸](/osfans/xu/wiki/04) | /ɛ/   |  [iu]?ae[nh] | [iu]?e[nt]   |  [iu]?(an\|aih)  |
 | [五 　端桓](/osfans/xu/wiki/05) | /ʊ/   |  u[nh]  |  u[nt]  | uon\|uh   |
