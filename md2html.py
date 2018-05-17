@@ -96,7 +96,7 @@ def break_yi(yi):
     if 0 < n < 4:
         yi = yi + (4-n) * "　"
         n = 4
-    if n > 0:
+    if n > 0 and '<' not in yi:
         yi = yi[:(n+1)//2]+"<br/>"+yi[(n+1)//2:]
     return yi
 
