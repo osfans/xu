@@ -87,8 +87,8 @@ def append(fmt, s):
 
 def parse(s):
     s = s.strip().strip("`").replace("〜", "—").replace("～", "—").replace("※", "").replace(" ", "")
-    if "(" in s or "（" in s:
-        s = re.sub("(.[\?=]?)[\(（](.+?)[\)）]", r'<a title="\2">\1</a>', s)
+    if "（" in s:
+        s = re.sub("(.[\?=]?)（(.+?)）", r'<a title="\2">\1</a>', s)
     return s
 
 def break_yi(yi):
@@ -124,45 +124,45 @@ def md2html(filename):
                 sm = line
                 append("<div class=sm>%s</div>", sm)
             else:
-                line = line.replace("` ","`\n")
-                fields = line.split("\n")
-                for line in fields:
-                    zi, yi= "", ""
-                    if " " not in line:
-                        if line.startswith("`"):
-                            yi = line
+                zi, yi= "", ""
+                if line.startswith("`"):
+                    yi = line #無字
+                elif line.count("`") == 2:
+                    zi, yi = line.split("`", 1)
+                if zi or yi:
+                    zi = parse(zi)
+                    yi = parse(yi)
+                    if not yi:
+                        zi_single += zi
+                        continue
+                    if zi:
+                        zi = zi_single + zi
+                        zi_single = ""
+                        yi = break_yi(yi)
+                    zi_count+=1
+                    if zi_count == 1:
+                        sd_title = sd
+                        if not zi:
+                            sd_title = yi
+                            yi = ""
+                        if len(sd_title) == 2:
+                            sd_title = sd[0]+"<br/>" + sd[1]
+                            append("<div class=sd2>%s</div>", sd_title)
                         else:
-                            zi = line
-                    elif line.count("`") == 2:
-                        zi, yi = line.split("`", 1)
-                    if zi or yi:
-                        zi = parse(zi)
-                        yi = parse(yi)
-                        if not yi:
-                            zi_single += zi
-                            continue
-                        if zi:
-                            zi = zi_single + zi
-                            zi_single = ""
-                            yi = break_yi(yi)
-                        zi_count+=1
-                        if zi_count == 1:
-                            sd_title = sd
-                            if not zi:
-                                sd_title = yi
-                                yi = ""
-                            if len(sd_title) == 2:
-                                sd_title = sd[0]+"<br/>" + sd[1]
-                                append("<div class=sd2>%s</div>", sd_title)
-                            else:
-                                append("<div class=sd>%s</div>", sd_title)
-                            append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
-                        else:
-                            append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
+                            append("<div class=sd>%s</div>", sd_title)
+                        append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
+                    else:
+                        append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
 
     target = open("docs/" + os.path.basename(filename).replace(".md", ".html"), "w", encoding="U8")
     target.write(template % ("\n".join(lines)))
     target.close()
 
+def copy_readme():
+    target = open("README.md", "w", encoding="U8")
+    target.write(open("wiki/Home.md", encoding="U8").read().replace("/osfans/xu/wiki/", "https://osfans.github.io/xu/"))
+    target.close()
+
+copy_readme()
 for filename in glob.glob("wiki/??.md"):
    md2html(filename)
