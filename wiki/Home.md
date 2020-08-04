@@ -6,23 +6,23 @@
 推薦使用[花園明朝字體](http://fonts.jp/hanazono/)閱讀本書。
 
 ## 韻
-| 韻部       |  國際音標   | 泰如拼音   |  鹽城拼音   | 漢語拼音 |
-| ---------|:---: |-------------| -----| ----- |
-| [一 　東宏](/osfans/xu/wiki/01) | /ɔ/  |  i?o[nh] |  i?o(ng\|k)  | i?o(ng\|h)   |
-| [二 　江陽](/osfans/xu/wiki/02) | /a/   |  [iu]?a[nh] | [iu]?a(ng\|k)   |  [iu]?a(ng\|h)  |
-| [三 　真文](/osfans/xu/wiki/03) | /ə/   |  u?e[nh]|    u?e?(ng\|k)   |  u?e?[nh]|
-| [四 　删咸](/osfans/xu/wiki/04) | /ɛ/   |  [iu]?ae[nh] | [iu]?e[nt]   |  [iu]?(an\|aih)  |
-| [五 　端桓](/osfans/xu/wiki/05) | /ʊ/   |  u[nh]  |  u[nt]  | uon\|uh   |
-| [六 　先廉](/osfans/xu/wiki/06) | /ɪ/   |  [iy][nh] | iu?[nt]   |  [iü]e?i[nh]  |
-| [七 　支虞](/osfans/xu/wiki/07) | /ɿ/i/y/   |  [ziy]  |  (y\|iu)  |  [iü]  |
-| [八 　灰微](/osfans/xu/wiki/08) | /ɪ/   |  u?ei\|ih |  u?it?  |  u?ei\|ih  |
-| [九 　歌摩](/osfans/xu/wiki/09) | /ʊ/   |  uh? |  ut?  | o\|uh   |
-| [十 　蘇胡](/osfans/xu/wiki/10) | /ʋ/   |  v  |  v  |  u  |
-| [十一 皆來](/osfans/xu/wiki/11) | /ɛ/   |  [iu]?ae|  [iu]?e  |  [iu]?ai  |
-| [十二 蕭毛](/osfans/xu/wiki/12) | /ɔ/   |  i?o| i?o   | i?ao   |
-| [十三 佳麻](/osfans/xu/wiki/13) | /a/   |  [iu]?a| [iu]?a   |  [iu]?a  |
-| [十四 侵行](/osfans/xu/wiki/14) | /ə/   |  [iy]e[nh] |  iu?(ng\|k)  | [iü]e?[nh]   |
-| [十五 攸樓](/osfans/xu/wiki/15) | /ɤɯ/   |  i?eu|  i?ou  |  i?o?u  |
+| 韻部                            |國際音標| 泰如拼音      |
+| -------------------------------|:-----:|-------------|
+| [一 　東宏](/osfans/xu/wiki/01) | /ɔ/   |  i?o[nh]    |
+| [二 　江陽](/osfans/xu/wiki/02) | /a/   |  [iu]?a[nh] |
+| [三 　真文](/osfans/xu/wiki/03) | /ə/   |  u?e[nh]    |
+| [四 　删咸](/osfans/xu/wiki/04) | /ɛ/   |  [iu]?ae[nh]|
+| [五 　端桓](/osfans/xu/wiki/05) | /ʊ/   |  u[nh]      |
+| [六 　先廉](/osfans/xu/wiki/06) | /ɪ/   |  y?i[nh]   |
+| [七 　支虞](/osfans/xu/wiki/07) |/ɿ/i/y/ |  [ziy]     |
+| [八 　灰微](/osfans/xu/wiki/08) | /ɪ/   |  u?ei\|ih   |
+| [九 　歌摩](/osfans/xu/wiki/09) | /ʊ/   |  u[nh]      |
+| [十 　蘇胡](/osfans/xu/wiki/10) | /ʋ/   |  v          |
+| [十一 皆來](/osfans/xu/wiki/11) | /ɛ/   |  [iu]?ae    |
+| [十二 蕭毛](/osfans/xu/wiki/12) | /ɔ/   |  i?o        |
+| [十三 佳麻](/osfans/xu/wiki/13) | /a/   |  [iu]?a     |
+| [十四 侵行](/osfans/xu/wiki/14) | /ə/   |  [iy]e[nh]  |
+| [十五 攸樓](/osfans/xu/wiki/15) | /ɤɯ/  |  i?eu       |
 
 ## 聲
 平翹不分，翹舌併入平舌，卽zh、ch、sh、r分別併入z、c、s、l。
@@ -39,7 +39,7 @@
 
 |陰平| 陽平| 上聲| 去聲| 入聲|
 |:---:|:---:|:---:|:---:|:---:|
-|1|2|3|4|5|
+|1|2|3|5|7|
 
 ## 缺字處理
 1. 使用正字，可在後面使用（）加註原文和康熙字典等權威字典註釋
