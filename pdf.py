@@ -93,13 +93,13 @@ yt='㔸㖤㙱㚊㜎㝺㠺㥒㥹㦃㦢㦬㧓㨁㨙㨞㩕㫡㬈㬙㯪㱲㴮㵅㵖�
 def parse(s):
     #s = s.replace("𠀍","&#131085;").replace("𰀀","&#196608;").replace("𠀟", "&#131103;")
     s = s.strip().strip("`").replace("〜", "～").replace("※", "")
-    s = re.sub('(.([\d\*]=?)?)([+^])', r'<span class=new>\1</span>', s)
+    s = re.sub(r'(.([\d\*]=?)?)([+^])', r'<span class=new>\1</span>', s)
     s = re.sub(r'[+^？]', r'', s)
     s = re.sub(r"(.)(\d)=", r'<span class=f\2>\1</span>', s)
     s = re.sub(r"(.)(\*)", r'<span class=pua>\1</span>\2', s)
     if "（" in s:
         s = re.sub("(.)（(.+?)❌）", r'\1<strike>\2</strike>', s)
-        s = re.sub("●（(.+?)）", r'<u>\1</u>', s)
+        s = re.sub("□（(.+?)）", r'<u>\1</u>', s)
         s = re.sub("（(.+?)）", r'<sub>\1</sub>', s)
     s = re.sub(r"([%s])"%yt, r'<span class=f1>\1</span>', s)
     return s
@@ -107,7 +107,7 @@ def parse(s):
 def get_py(s,m,d):
     py = s+m+str(sds[d])
     py = py.replace('0','').replace('yin','iun').replace('uin','ui').replace('yi','y').replace('n7','h7')
-    py = re.sub('(?<=[zcs])i(?=\d)', 'z', py)
+    py = re.sub(r'(?<=[zcs])i(?=\d)', 'z', py)
     return py
 
 def md2mb(filename):
@@ -206,10 +206,10 @@ ipas={
     r'\bg':'k',
     r'\bh':'x',
     'ae':'ɛ',
-    'a(?=\d)?$':'ɑ',
+    r'a(?=\d)?$':'ɑ',
     'iu':'yu',
     'eu':'ɤɯ',
-    'u(?=[\dnh])?$':'ʊ',
+    r'u(?=[\dnh])?$':'ʊ',
     '(?<=[iu])i':'ɪ',
     'i(?=[nh])':'ɪ',
     'v':'ʋ',
@@ -242,15 +242,14 @@ target=open("docs/pdf.htm","w",encoding="U8")
 target.write("""<html lang=kr><head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <style type="text/css">
-        body {
-        font-family: "GenRyuMin TW","I.Ming","I.MingVar","HanaMinA","HanaMinB","BabelStone Han";}
+        body {font-family: sans-serif;}
         a {font-family: Serif}
         .f0 {font-family: "I.Ming";}
         .f1 {font-family: "I.MingVar";}
         .f2 {font-family: Source Han Serif TW;}
         .f3 {font-family: Source Han Serif CN;}
-        .f4 {font-family: HanaMinA,HanaMinB;}
-        .pua {font-family: "BabelStone Han"}
+        .f4 {font-family: Jigmo,Jigmo2,Jigmo3;}
+        .pua {font-family: "BabelStone Han PUA","BabelStone Han"}
         .ipa {font-family:Charis SIL; font-weight: normal; padding-left: 10px;}
         .py {font-family: Serif; font-weight: normal; background: #E5E5E5; padding:0 5px 0 5px; border:1px solid;}
         .big {font-size: 24px; padding-right: 8px;}

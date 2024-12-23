@@ -13,24 +13,26 @@ zy=dict()
 zs=set()
 ys=set()
 
-def parse(s):
+def parse(s, zi=False):
     s = s.strip().strip("`").replace("〜", "～").replace("※", "")
-    s = re.sub('(.([\d\*]=?)?)([+^])', r'\1', s)
+    s = re.sub(r'.\+？?', "", s)
+    s = re.sub(r'(.([\d\*]=?)?)([+^])', r'\1', s)
     s = re.sub(r'[+^？]', r'', s)
     s = re.sub(r"(.)(\d)=", r'\1', s)
     if "（" in s:
         s = re.sub("(.)（(.+?)❌）", r'\1', s)
-        #s = re.sub("●（(.+?)）", r'\1', s)
+        #s = re.sub("□（(.+?)）", r'\1', s)
         s = re.sub("=（(.+?)）", r'', s)
-        s = re.sub(r"(.)(\*)（(.+?)）", r'●（\3）', s)
-        s = re.sub("([^●])（(.+?)）", r'\1', s)
+        s = re.sub(r"(.)(\*)（(.+?)）", r'□（\3）', s)
+        if not zi:
+            s = re.sub("([^□])（(.+?)）", r'\1', s)
     s = s.replace("=","")
     return s
 
 def get_py(s,m,d):
     py = s+m+str(sds[d])
     py = py.replace('0','').replace('yin','iun').replace('uin','ui').replace('yi','y').replace('n7','h7')
-    py = re.sub('(?<=[zcs])i(?=\d)', 'z', py)
+    py = re.sub(r'(?<=[zcs])i(?=\d)', 'z', py)
     return py
 
 def md2mb(filename):
@@ -63,7 +65,7 @@ def md2mb(filename):
                 elif line.count("`") == 2:
                     zi, yi = line.split("`", 1)
                 if zi or yi:
-                    zi = parse(zi)
+                    zi = parse(zi, True)
                     yi = parse(yi)
                     global zs,ys
                     zs=zs.union(set(zi))
@@ -114,38 +116,8 @@ yml=['z', 'i', 'v', 'y',
 ]
 sml='bpmfdtnlzcsjqxgkhØ'
 
-ipas={
-    r'z\b':'ɿ',
-    r'\bp':'pʰ',
-    r'\bb':'p',
-    r'\bt':'tʰ',
-    r'\bd':'t',
-    r"\bz":"ʦ",
-    r"\bc":"ʦʰ",
-    r'\bj':'ʨ',
-    r'\bq':'ʨʰ',
-    r'\bx':'ɕ',
-    r'\bk':'kʰ',
-    r'\bg':'k',
-    r'\bh':'x',
-    'ae':'ɛ',
-    'a(?=\d)?$':'ɑ',
-    'iu':'yu',
-    'eu':'ɤɯ',
-    'u(?=[\dnh])?$':'ʊ',
-    '(?<=[iu])i':'ɪ',
-    'i(?=[nh])':'ɪ',
-    'v':'ʋ',
-    'e':'ə',
-    'o':'ɔ',
-    '(?<=ɔ)n':'ŋ',
-    '(?<=[aɪʊɛ])n':'̃',
-    '1':'³¹',
-    '2':'²¹³',
-    '3':'⁵⁵',
-    '5':'³⁵',
-    '7':'⁵',
-    'h':'ʔ'}
+smdict = {'g': 'k', 'd': 't', '': '', 'c': 'tsʰ', 'b': 'p', 'l': 'l', 'h': 'x', 't': 'tʰ', 'q': 'tɕʰ', 'z': 'ts', 'j': 'tɕ', 'f': 'f', 'k': 'kʰ', 'n': 'n', 'x': 'ɕ', 'm': 'm', 's': 's', 'p': 'pʰ', 'ng': 'ŋ'}
+ymdict = {'ae': 'e', 'ieh': 'iəʔ', 'ii': 'iɪ̃', 'eh': 'əʔ', 'io': 'iɔ', 'ieu': 'iɤɯ', 'u': 'ʊ̃', 'v': 'uᵝ', 'en': 'ən', 'a': 'ɑ', 'on': 'ɔŋ', 'an': 'ã', 'oh': 'ɔʔ', 'i': 'iᶽ', 'ien': 'in', 'ion': 'iɔŋ', 'ah': 'aʔ', 'ih': 'iʔ', 'y': 'yᶽ', 'ui': 'uɪ', 'uae': 'ue', 'aeh': 'ɛʔ', 'in': 'iɪ̃', 'ia': 'iɑ', 'z': 'ɿ', 'uh': 'ʊʔ', 'aen': 'ɛ̃', 'eu': 'ɤɯ', 'iah': 'iaʔ', 'ueh': 'uəʔ', 'iae': 'ie', 'iuh': 'yʊʔ', 'yen': 'yn', 'ian': 'iã', 'iun': 'yʊ̃', 'un': 'ʊ̃', 'o': 'ɔ', 'uan': 'uã', 'ua': 'uɑ', 'uen': 'uən', 'ioh': 'iɔʔ', 'iaen': 'iɛ̃', 'uaen': 'uɛ̃', 'uaeh': 'uɛʔ', 'iaeh': 'iɛʔ', 'uah': 'uaʔ', 'yeh': 'yəʔ', 'ya': 'yɑ', '': ''}
 
 def pykey(py):
     sm=''
@@ -157,22 +129,24 @@ def pykey(py):
     return yml.index(ym),sml.index(sm),sd
 
 def py2ipa(py):
-    for a,b in ipas.items():
-        py=re.sub(a,b,py)
-    return py
+    sm = re.findall("^[^aeiouvy]?g?", py)[0]
+    sd = py[-1]
+    if sd not in "12357": sd = ""
+    ym = py[len(sm):len(py)-len(sd)]
+    yb = smdict[sm]+ymdict[ym]+sd
+    return yb
 
 def parsezi(zi):
     zi = zi.replace(" ", "")
-    groups = map(lambda x:x[0], re.finditer("((.)(（.*）)?)", zi))
+    groups = map(lambda x:x[0], re.finditer("((.[\ufe00-\ufe0f\U000E0100-\U000E01EF]?)(（.*）)?)", zi))
     return " ".join(groups)
     
-target=open("docs/xu.csv","w",encoding="U8")
+target=open("docs/鹽城類音字彙.tsv","w",encoding="U8")
 for filename in range(1,16):
    md2mb("wiki/%02d.md" % filename)
 
 ym=-1
 sy=""
-count=0
 for py in sorted(zy.keys(),key=pykey):
     ymt = pykey(py)[0]
     if ymt!=ym:
@@ -181,6 +155,5 @@ for py in sorted(zy.keys(),key=pykey):
         sy=py[:-1]
     ipa = py2ipa(py)
     for zi,yi in zy[py]:
-        target.write('"%d","%s","%s","%s"\n'%(count, parsezi(zi), py, yi))
-        count+=1
+        target.write('%s\t%s\t%s\n'%(parsezi(zi), ipa, yi))
 target.close()

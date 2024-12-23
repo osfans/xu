@@ -88,7 +88,7 @@ def append(fmt, s):
 def parse(s):
     s = s.strip().strip("`").replace("〜", "—").replace("～", "—").replace("※", "").replace(" ", "")
     if "（" in s:
-        s = re.sub("(.[\?=]?)（(.+?)）", r'<a title="\2">\1</a>', s)
+        s = re.sub(r"(.[\?=]?)（(.+?)）", r'<a title="\2">\1</a>', s)
     return s
 
 def break_yi(yi):
