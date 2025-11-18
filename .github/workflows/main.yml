@@ -11,5 +11,15 @@ jobs:
         uses: fifsky/html-to-pdf-action@master
         with:
           htmlFile: './docs/pdf.htm' # Path to your HTML file
-          outputFile: './docs/pdf.pdf' # Desired output PDF path
+          outputFile: './docs/xu.pdf' # Desired output PDF path
           pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}' # Optional Puppeteer PDF options
+
+      - name: Create latest release
+        uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: false
+          title: 'Latest Release'
+          files: |
+            docs/xu.pdf
