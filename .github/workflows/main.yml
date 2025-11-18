@@ -1,0 +1,15 @@
+name: HTML to PDF Conversion
+
+on: [push]
+
+jobs:
+  convert_html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: HTML to PDF
+        uses: fifsky/html-to-pdf-action@master
+        with:
+          htmlFile: './docs/pdf.htm' # Path to your HTML file
+          outputFile: './docs/pdf.pdf' # Desired output PDF path
+          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}' # Optional Puppeteer PDF options
