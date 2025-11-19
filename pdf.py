@@ -4,6 +4,7 @@ import re, os, glob, datetime
 
 from collections import defaultdict
 import fileinput
+from md2pdf.core import md2pdf
 
 def hex2chr(uni):
     "把unicode轉換成漢字"
@@ -50,36 +51,6 @@ def norm(py):
     py=re.sub('(?<=[zcs])e$','in',py)
     return py
 
-def pinyindict():
-    dic = defaultdict(list)
-    for line in open("/usr/share/unicode/Unihan_Readings.txt"):
-        fields = line.strip().split("\t", 2)
-        if len(fields) != 3:
-            continue
-        han, typ, yin = fields
-        han = hex2chr(han)
-        if typ == "kMandarin":
-            yin = yin.strip()
-            append(dic[han], [yin])
-        elif typ == "kXHC1983":
-            yin = re.sub(r"[.0-9*,]+:", "", yin).split(" ")
-            append(dic[han], yin)
-        elif typ == "kHanyuPinyin":
-            yin = re.sub(r"^.+:", "", yin).split(",")
-            append(dic[han], yin)
-        elif typ == "kHanyuPinlu":
-            yin = re.sub(r"\(.*?\)", "", yin).split(" ")
-            append(dic[han], yin)
-    return dic
-    
-pinyindic=pinyindict()
-
-def pinyin(i):
-    global pinyindic
-    if i in pinyindic:
-        return pinyindic[i]
-    return i
-
 template = "%s\n"
 yms=["on","an","en","aen","un","in","i","in","un","v","ae","o","a","ien","eu"]
 sds={"陰平":1,"陽平":2,"上":3,"去":5,"入":7}
@@ -87,8 +58,6 @@ lines = list()
 zy=dict()
 zs=set()
 ys=set()
-
-yt='㔸㖤㙱㚊㜎㝺㠺㥒㥹㦃㦢㦬㧓㨁㨙㨞㩕㫡㬈㬙㯪㱲㴮㵅㵖㵟㸙㹝㺋㻗㾁㾾䀭䃺䄍䄏䇸䈲䈳䉉䊲䏴䒃䓾䔏䕷䗂䛏䜕䣋䩺䭉䭢丹凾刐周咏啳嗞坍帽微抆暝沷泳涏湎溉溉濨猽痜瞑砃礠窖窴脉膋菡蓂袞覀詠誥調調週裯遑鉛隍鞰麩麫𠋶𠌰𤼍𥆑𧧄𧧼𧨩𧨾𧩴𧪪𧪫𧬮𧭂𧭥𧱴𨕠𩚚𩚬𩛠𩜇𩜏𩜯𩜵𩝀𩝠𩞄𩞉𩞡𩟀𩟊𪍿𬹃𮞉𦀔𦁎𦆟𦆯𬗟䞋鎉䑽𣥂䥕勻勺彴妁約䳭㖹嵮㴜䘕㰠㝩㱂䆲㕫㤃㚬㽿柭妏潤'
 
 def parse(s):
     #s = s.replace("𠀍","&#131085;").replace("𰀀","&#196608;").replace("𠀟", "&#131103;")
@@ -101,7 +70,6 @@ def parse(s):
         s = re.sub("(.)（(.+?)❌）", r'\1<strike>\2</strike>', s)
         s = re.sub("□（(.+?)）", r'<u>\1</u>', s)
         s = re.sub("（(.+?)）", r'<sub>\1</sub>', s)
-    s = re.sub(r"([%s])"%yt, r'<span class=f1>\1</span>', s)
     return s
 
 def get_py(s,m,d):
@@ -192,7 +160,7 @@ yml=['z', 'i', 'v', 'y',
 sml='bpmfdtnlzcsjqxgkhØ'
 
 ipas={
-    r'z\b':'ɿ',
+    r'z(\d?)$':'ɿ\\1',
     r'\bp':'pʰ',
     r'\bb':'p',
     r'\bt':'tʰ',
@@ -209,7 +177,7 @@ ipas={
     r'a(?=\d)?$':'ɑ',
     'iu':'yu',
     'eu':'ɤɯ',
-    r'u(?=[\dnh])?$':'ʊ',
+    r'u(?=[nh]\d?)':'ʊ',
     '(?<=[iu])i':'ɪ',
     'i(?=[nh])':'ɪ',
     'v':'ʋ',
@@ -238,28 +206,8 @@ def py2ipa(py):
         py=re.sub(a,b,py)
     return py
     
-target=open("docs/pdf.htm","w",encoding="U8")
-target.write("""<html lang=kr><head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<style type="text/css">
-        body {font-family: sans-serif;}
-        a {font-family: Serif}
-        .f0 {font-family: "I.Ming";}
-        .f1 {font-family: "I.MingVar";}
-        .f2 {font-family: Source Han Serif TW;}
-        .f3 {font-family: Source Han Serif CN;}
-        .f4 {font-family: Jigmo,Jigmo2,Jigmo3;}
-        .pua {font-family: "BabelStone Han PUA","BabelStone Han"}
-        .ipa {font-family:Charis SIL; font-weight: normal; padding-left: 10px;}
-        .py {font-family: Serif; font-weight: normal; background: #E5E5E5; padding:0 5px 0 5px; border:1px solid;}
-        .big {font-size: 24px; padding-right: 8px;}
-        .note {font-size: 16px; padding-right: 10px;}
-        .new {color: #BFBFBF;}
-        .toc {display: none; color:white; font-size: 1px;}
-        sub,strike {font-size: 12px; color: gray;}
-</style>
-</head>
-<body><h1>類音字彙</h1><p>徐筱帆</p><hr/>\n""")
+contents = [open("README.md", encoding="U8").read()]
+contents[0] = contents[0].replace("[在線版本]", str(datetime.date.today()) + "\n\n" + "[在線版本]")
 for filename in range(1,16):
    md2mb("wiki/%02d.md" % filename)
 
@@ -269,25 +217,16 @@ for py in sorted(zy.keys(),key=pykey):
     ymt = pykey(py)[0]
     if ymt!=ym:
         ym=ymt
-        print("<h1><span>%s</span><span class=ipa>[%s]</span></h1><hr/>" % (yml[ym], py2ipa(yml[ym])), file=target)
+        contents.append("# <span class=py>%s</span> <span class=ipa>[%s]</span>\n" % (yml[ym], py2ipa(yml[ym])))
     if py[:-1]!=sy:
         sy=py[:-1]
-        print("<h2 class=toc>%s [%s]</h2>" % (sy, py2ipa(sy)), file=target)
-        #print(sy, py2ipa(sy))
-    print("<p><span class=py>%s</span><span class=ipa>[%s]</span></p>"%(py.replace("7",""),py2ipa(py)),file=target)
+        if py.endswith("7"):
+            contents.append("## <span class=py>%s</span> <span class=ipa>[%s]</span>\n" % (sy, py2ipa(py)))
+        else:
+            contents.append("## <span class=py>%s</span> <span class=ipa>[%s]</span>\n" % (sy, py2ipa(sy)))
+    if not py.endswith("7"):
+        contents.append("<span class=py>%s</span> <span class=ipa>[%s]</span>\n"%(py.replace("7",""),py2ipa(py)))
     for zi,yi in zy[py]:
-        line="<span class=big>"
-        #big=""
-        #for i in zi:
-            #pypy=pinyin(i)
-            #if py[:-1] in pypy:
-            #    continue
-            #rt="/".join(pypy)
-            #if rt != i:
-            #    i="<ruby>%s<rt>%s</rt><ruby>"%(i,rt)
-            #big+=i
-        line+=zi
-        line+="</span><span class=note>%s</span>\n"%yi
-        target.write(line)
-target.write("<hr/><p><a href=https://github.com/osfans/xu/>https://github.com/osfans/xu</a></p><p>%s</p></body></html>"%datetime.date.today())
-target.close()
+        contents.append("%s <span class=sub>%s</span> "%(zi,yi))
+    contents.append("\n")
+md2pdf("xu.pdf", md_content="\n".join(contents), css_file_path="pdf.css")
