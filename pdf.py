@@ -50,36 +50,6 @@ def norm(py):
     py=re.sub('(?<=[zcs])e$','in',py)
     return py
 
-def pinyindict():
-    dic = defaultdict(list)
-    for line in open("/usr/share/unicode/Unihan_Readings.txt"):
-        fields = line.strip().split("\t", 2)
-        if len(fields) != 3:
-            continue
-        han, typ, yin = fields
-        han = hex2chr(han)
-        if typ == "kMandarin":
-            yin = yin.strip()
-            append(dic[han], [yin])
-        elif typ == "kXHC1983":
-            yin = re.sub(r"[.0-9*,]+:", "", yin).split(" ")
-            append(dic[han], yin)
-        elif typ == "kHanyuPinyin":
-            yin = re.sub(r"^.+:", "", yin).split(",")
-            append(dic[han], yin)
-        elif typ == "kHanyuPinlu":
-            yin = re.sub(r"\(.*?\)", "", yin).split(" ")
-            append(dic[han], yin)
-    return dic
-    
-pinyindic=pinyindict()
-
-def pinyin(i):
-    global pinyindic
-    if i in pinyindic:
-        return pinyindic[i]
-    return i
-
 template = "%s\n"
 yms=["on","an","en","aen","un","in","i","in","un","v","ae","o","a","ien","eu"]
 sds={"陰平":1,"陽平":2,"上":3,"去":5,"入":7}
@@ -239,19 +209,17 @@ def py2ipa(py):
     return py
     
 target=open("docs/pdf.htm","w",encoding="U8")
-target.write("""<html lang=kr><head>
+target.write("""<html lang=zh><head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <style type="text/css">
-        body {font-family: sans-serif;}
-        a {font-family: Serif}
-        .f0 {font-family: "I.Ming";}
-        .f1 {font-family: "I.MingVar";}
-        .f2 {font-family: Source Han Serif TW;}
-        .f3 {font-family: Source Han Serif CN;}
-        .f4 {font-family: Jigmo,Jigmo2,Jigmo3;}
-        .pua {font-family: "BabelStone Han PUA","BabelStone Han"}
-        .ipa {font-family:Charis SIL; font-weight: normal; padding-left: 10px;}
-        .py {font-family: Serif; font-weight: normal; background: #E5E5E5; padding:0 5px 0 5px; border:1px solid;}
+        body {
+                font-family: 'Charis', 'WenJin Mincho Plane 0', 'WenJin Mincho Plane 2','WenJin Mincho Plane 3';
+                font-feature-settings: "cv02","ss12";
+                -moz-font-feature-settings:"cv02","ss12";
+                -webkit-font-feature-settings:"cv02","ss12";
+        }
+        .ipa {font-weight: normal; padding-left: 10px;}
+        .py {font-weight: normal; background: #E5E5E5; padding:0 5px 0 5px; border:1px solid;}
         .big {font-size: 24px; padding-right: 8px;}
         .note {font-size: 16px; padding-right: 10px;}
         .new {color: #BFBFBF;}
@@ -277,15 +245,6 @@ for py in sorted(zy.keys(),key=pykey):
     print("<p><span class=py>%s</span><span class=ipa>[%s]</span></p>"%(py.replace("7",""),py2ipa(py)),file=target)
     for zi,yi in zy[py]:
         line="<span class=big>"
-        #big=""
-        #for i in zi:
-            #pypy=pinyin(i)
-            #if py[:-1] in pypy:
-            #    continue
-            #rt="/".join(pypy)
-            #if rt != i:
-            #    i="<ruby>%s<rt>%s</rt><ruby>"%(i,rt)
-            #big+=i
         line+=zi
         line+="</span><span class=note>%s</span>\n"%yi
         target.write(line)

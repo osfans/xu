@@ -69,6 +69,8 @@ body {
   clear: both;
 }
 
+.new {color: #BFBFBF;}
+
 </style>
 <title>徐氏類音字彙</title>
 
@@ -152,6 +154,7 @@ def md2html(filename):
                             append("<div class=sd>%s</div>", sd_title)
                         append("<div class=zy><div class=zi1>%s</div><div class=yi>%s</div></div>",(zi, yi))
                     else:
+                        zi = re.sub("(.)[\\+\\^]", lambda x: "<span class=new>%s</span>" % x.group(1), zi)
                         append("<div class=zy><div class=zi>%s</div><div class=yi>%s</div></div>",(zi, yi))
 
     target = open("docs/" + os.path.basename(filename).replace(".md", ".html"), "w", encoding="U8")
