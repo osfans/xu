@@ -1,0 +1,53 @@
+@page {
+        width: 400px;
+        height: 800px;
+        margin: 2px;
+}
+
+body {
+        font-family: 'WenJin Mincho Plane 0', 'WenJin Mincho Plane 2', 'WenJin Mincho Plane 3';
+        font-feature-settings: "ss12", "ss01";
+        -moz-font-feature-settings: "ss12", "ss01";
+        -webkit-font-feature-settings: "ss12", "ss01";
+}
+
+.ipa {
+        font-family: 'Charis';
+        font-weight: normal;
+}
+
+.py {
+        background: #E5E5E5;
+        padding: 5px 2px 5px 2px;
+        border: 0.5px solid;
+}
+
+.new,
+strike {
+        color: #BFBFBF;
+}
+
+.sub,
+pre,
+code {
+        font-size: 0.6em;
+}
+
+h1 {
+        font-size: 1.5em;
+        page-break-before: always;
+        border-bottom: 0.5px solid;
+}
+
+h2 {
+        font-size: 1.2em;
+        border-bottom: 0.5px solid;
+}
+
+table,
+th,
+td {
+        font-size: 0.9em;
+        border: 0.5px solid;
+        border-collapse: collapse;
+}
