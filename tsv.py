@@ -155,5 +155,5 @@ for py in sorted(zy.keys(),key=pykey):
         sy=py[:-1]
     ipa = py2ipa(py)
     for zi,yi in zy[py]:
-        target.write('%s\t%s\t%s\n'%(parsezi(zi), ipa, yi))
+        target.write('%s\t%s\t%s\t%s\n'%(parsezi(zi), py, ipa, yi))
 target.close()
