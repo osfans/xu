@@ -24,7 +24,7 @@ HTML = """\
 <style>
 * { box-sizing: border-box; }
 body {
-  font-family: 'Noto Sans KR', 'Noto Sans CJK KR', 'Source Han Sans', sans-serif;
+  font-family: 'Noto Sans KR', 'Noto Sans CJK KR', 'Source Han Sans', 'FSung-F', 'FSung-X', sans-serif;
   margin: 0; padding: 0 1em 2em;
   background: #faf9f7; color: #222;
 }
@@ -56,7 +56,7 @@ td {
 }
 td.zi { font-size: 1.3em; white-space: nowrap; }
 td.py { color: #555; white-space: nowrap; }
-.ipa { font-family: 'Charis SIL', 'Noto Sans', sans-serif; color: #999; font-size: .85em; }
+.ipa { font-family: 'Charis', 'Noto Sans', sans-serif; color: #999; font-size: .85em; }
 td.yi { color: #333; }
 tr:hover td { background: #f0ede8; }
 mark { background: #ffe58a; border-radius: 2px; }
