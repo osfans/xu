@@ -141,7 +141,7 @@ def parsezi(zi):
     groups = map(lambda x:x[0], re.finditer("((.[\ufe00-\ufe0f\U000E0100-\U000E01EF]?)(（.*）)?)", zi))
     return " ".join(groups)
     
-target=open("docs/鹽城類音字彙.tsv","w",encoding="U8")
+target=open("xu.tsv","w",encoding="U8")
 for filename in range(1,16):
    md2mb("wiki/%02d.md" % filename)
 

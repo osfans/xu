@@ -4,7 +4,8 @@ import re, os, glob, datetime
 
 from collections import defaultdict
 import fileinput
-from md2pdf.core import md2pdf
+import markdown
+from weasyprint import HTML, CSS
 
 def hex2chr(uni):
     "把unicode轉換成漢字"
@@ -229,4 +230,7 @@ for py in sorted(zy.keys(),key=pykey):
     for zi,yi in zy[py]:
         contents.append("%s <span class=sub>%s</span> "%(zi,yi))
     contents.append("\n")
-md2pdf("xu.pdf", md_content="\n".join(contents), css_file_path="pdf.css")
+html_body = markdown.markdown("\n".join(contents), extensions=["tables"])
+html = "<html><body>" + html_body + "</body></html>"
+css = CSS(filename="pdf.css")
+HTML(string=html).write_pdf("xu.pdf", stylesheets=[css])
